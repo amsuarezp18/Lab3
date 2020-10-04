@@ -23,8 +23,8 @@ import java.security.cert.X509Certificate;
 public class ProtocoloServidor implements Runnable{
 	
 	//Rutas de archivos
-	private static String ARCHIVO_1 = "data/archivos/ElAñañin.mp4";
-	private static String ARCHIVO_2 = "data/archivos/toadload.wav";
+	private static String ARCHIVO_1 = "data/archivos/video1.mp4";
+	private static String ARCHIVO_2 = "data/archivos/test2.bin";
 	
 	//Constantes
 	private static int TAM_PAQUETE = 1024;
@@ -98,6 +98,7 @@ public class ProtocoloServidor implements Runnable{
 
 		try {
 			
+			//System.out.println("bandera 1");
 			//RECUPERA EL ARCHIVO A ENVIAR
 			File file;
 			if(archivo == 1) {
@@ -110,18 +111,23 @@ public class ProtocoloServidor implements Runnable{
 			byte[] archivoBytes = new byte[(int) file.length()];
 			FileInputStream fi = new FileInputStream(file);
 			BufferedInputStream bis = new BufferedInputStream(fi);
+			//System.out.println("bandera 2");
 			bis.read(archivoBytes, 0, archivoBytes.length);
+			//System.out.println("bandera 3");
 			OutputStream os = sc.getOutputStream();
 			
 			//GENERA HASH DEL ARCHIVO PARA COMPROBACION
 			
 			//VERSION PRUEBA
-			MessageDigest md = MessageDigest.getInstance("SHA-256");
-			String hexa = checksum(file.getPath(), md);
+			MessageDigest md = MessageDigest.getInstance("SHA-1");
+			//System.out.println("bandera 4");
+			//String hexa = checksum(file.getPath(), md);
+			//System.out.println("bandera 5");
 			//System.out.println("Hexa serv " + hexa);
 			DataOutputStream dos = new DataOutputStream(sc.getOutputStream());
-			dos.writeUTF(hexa);
+			//dos.writeUTF(hexa);
 			dos.writeInt((int)file.length());
+			//System.out.println("bandera 6");
 			//NOTIFICA ENVIO DE ARCHIVO Y COMIENZA PROCESO
 			System.out.println("Enviando "+ file.getName() + " tamano: " + archivoBytes.length + " Bytes");
 			
@@ -135,6 +141,7 @@ public class ProtocoloServidor implements Runnable{
 					os.write(archivoBytes, i, TAM_PAQUETE);
 				}
 				enviados++;
+				System.out.println("Enviando paquete " + enviados + "/" + (int)(file.length() / TAM_PAQUETE));
 			}
 			
 			

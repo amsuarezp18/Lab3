@@ -45,6 +45,8 @@ public class mainServ {
 		
 		File archivoLog = null;
 		
+		
+		
 		String time = new SimpleDateFormat("dd_MM_yyyy_HH_mm_ss").format(Calendar.getInstance().getTime());
 		archivoLog = new File(RUTA_LOG + time + ".txt");
 		escribirLog(archivoLog, "Fecha y hora de prueba " + time);
