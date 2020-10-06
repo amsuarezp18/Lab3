@@ -23,7 +23,8 @@ import java.security.cert.X509Certificate;
 public class ProtocoloServidor implements Runnable{
 	
 	//Rutas de archivos
-	private static String ARCHIVO_1 = "data/archivos/video1.mp4";
+	private static String ARCHIVO_1 = "data/archivos/file-1.bin";
+	//private static String ARCHIVO_1 = "data/archivos/video1.mp4";
 	private static String ARCHIVO_2 = "data/archivos/test2.bin";
 	
 	//Constantes
@@ -121,11 +122,11 @@ public class ProtocoloServidor implements Runnable{
 			//VERSION PRUEBA
 			MessageDigest md = MessageDigest.getInstance("SHA-1");
 			//System.out.println("bandera 4");
-			//String hexa = checksum(file.getPath(), md);
+			String hexa = checksum(file.getPath(), md);
 			//System.out.println("bandera 5");
 			//System.out.println("Hexa serv " + hexa);
 			DataOutputStream dos = new DataOutputStream(sc.getOutputStream());
-			//dos.writeUTF(hexa);
+			dos.writeUTF(hexa);
 			dos.writeInt((int)file.length());
 			//System.out.println("bandera 6");
 			//NOTIFICA ENVIO DE ARCHIVO Y COMIENZA PROCESO

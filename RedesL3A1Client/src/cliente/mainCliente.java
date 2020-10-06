@@ -94,8 +94,6 @@ public class mainCliente {
 	 */
 	public static void descargar(Socket s, int id, String arch) {
 		
-		int bytesLeidos;
-		int actual = 0;
 		try {
 			
 			//CANAL DE LECTURA DE ARCHIVO 
@@ -125,15 +123,16 @@ public class mainCliente {
 			bos.flush();
 			
 			//NOTIFICACION DE FINALIZACION AL USUARIO Y A SERVIDOR
-			System.out.println("Archivo " + arch + " descargado en " + DIR_DESCARGA + "(" + actual + " Bytes leídos).");
+			System.out.println("Archivo " + arch + " descargado en " + DIR_DESCARGA + " (" + buffer.length + " Bytes leídos).");
 			
 			//VERIFICACION DE INTEGRIDAD DE ARCHIVO
-			MessageDigest sha = MessageDigest.getInstance("SHA-256");
+			MessageDigest sha = MessageDigest.getInstance("SHA-1");
 			String hashCliente = checksum(DIR_DESCARGA+arch, sha);
 			//System.out.println("Hexa cliente " +  hashCliente);
 			System.out.println("Comenzando a verificar integridad de archivo descargado...");
 			
 			if(hashCliente.equals(hashServidor)) {
+			//if(true) {
 				//CONFIRMA RECEPCION DE ARCHIVO
 				DataOutputStream dos = new DataOutputStream(s.getOutputStream());
 				dos.writeByte(1);
